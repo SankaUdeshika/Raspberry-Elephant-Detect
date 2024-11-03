@@ -8,6 +8,7 @@ import {
   StatusBar,
 } from "react-native";
 
+const logoPath = require("../assets/images/Logo.png");
 const ScheduleScreen = () => {
   const classes = [
     {
@@ -172,6 +173,9 @@ const ScheduleScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.logoCover}>
+        <Image style={styles.image} source={logoPath} />
+      </View>
       <StatusBar backgroundColor="black" barStyle="light-content" animated />
       <Text style={styles.title}>Today's elephant notificaiton</Text>
 
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    backgroundColor: "#ff7f50",
+    backgroundColor: "#367c2b",
     borderRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -307,6 +311,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#fff",
   },
+  image: {
+    width: 60,
+    height: 60,
+  },
+  logoCover:{
+    display:"flex",
+    justifyContent:'center',
+    alignItems:"center",
+    marginBottom:20,
+  }
 });
 
 export default ScheduleScreen;

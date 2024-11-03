@@ -12,7 +12,7 @@ export default function App() {
   });
 
   function changeLoadingPage() {
-    router.replace("/home");
+    router.replace("/signup");
   }
 
   return (
