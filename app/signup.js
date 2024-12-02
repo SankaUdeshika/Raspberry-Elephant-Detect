@@ -25,7 +25,7 @@ export default function App() {
         barStyle="light-content"
         animated
       />
-      <View style={styles.inputView}>
+      <View style={styles.inputView}> 
         <TextInput
           style={styles.TextInput}
           placeholder="Email."
