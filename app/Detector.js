@@ -1,11 +1,11 @@
-import { router } from "expo-router";
+import { Image } from "expo-image";
+
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
   Button,
   TouchableOpacity,
@@ -14,9 +14,16 @@ import {
 } from "react-native";
 
 const logoPath = require("../assets/images/Logo.png");
-const CamaraIconPath = require("../assets/images/camaraIcon.png");
+const CamaraIconPath = "../assets/images/camaraIcon.png";
 
-export default function App() {
+export default function Detector() {
+  {
+    /* Raspberry IP address ->192.168.8.197 */
+  }
+  const [getImagePath, setIamgePath] = useState(
+    "photo_86750fb1-2997-4c72-9474-723b0b9aa0b4.jpg"
+  );
+  const imageUrl = ``;
   return (
     <View style={styles.container}>
       <StatusBar
@@ -24,22 +31,32 @@ export default function App() {
         backgroundColor="black"
         networkActivityIndicatorVisible
       />
-      <View style={styles.picPreview}></View>
-      {/* Raspberry IP address ->192.168.8.197 */}
+      <View style={styles.picPreview}>
+        <Image
+          source={"http://192.168.8.197/images/" + getImagePath}
+          width={300}
+          height={300}
+        />
+      </View>
 
       <Pressable
         onPress={async function () {
-          const url = "http://192.168.8.197:5000/";
+          const capturePhoto_url = "http://192.168.8.197:5000/capture_photo";
+          const getImagePath_url = "http://192.168.8.197:5000/get_image";
+
           try {
-            const response = await fetch(url, { method: "GET" });
+            const response = await fetch(capturePhoto_url, { method: "GET" });
 
             if (response.ok) {
               // Ensure the response is not empty before parsing
               const text = await response.text();
-              if (text) {
-                Alert.alert("OK",text);
+              if (text != "false") {
+                var imagearray = text.split("images/");
+                setIamgePath(imagearray[1]);
+                // Alert.alert("responed",imagearray[1]);
+                
               } else {
-                Alert.alert("Error", "Empty response from server");
+                Alert.alert("No Elephant Detections");
               }
             } else {
               Alert.alert("Error", `Response not OK: ${response.status}`);
@@ -50,7 +67,10 @@ export default function App() {
           }
         }}
       >
-        <Image source={CamaraIconPath} />
+        <Image
+          source={require("../assets/images/camaraIcon.png")}
+          style={styles.CamaraIcon}
+        />
       </Pressable>
 
       <View>
@@ -67,7 +87,6 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   picPreview: {
-    backgroundColor: "black",
     borderColor: "#90EE90",
     borderStyle: "solid",
     borderWidth: 3,
@@ -78,5 +97,9 @@ const styles = StyleSheet.create({
   CamaraText: {
     marginTop: 20,
     color: "white",
+  },
+  CamaraIcon: {
+    width: 100,
+    height: 100,
   },
 });

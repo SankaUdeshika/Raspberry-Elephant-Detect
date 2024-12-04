@@ -1,23 +1,25 @@
 import { Image } from "expo-image";
-import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+
 import { useEffect } from "react";
-import { StyleSheet, View, StatusBar, Alert } from "react-native";
+import { StyleSheet, View,  Alert } from "react-native";
 
 // Variables
 const logoPath = require("../assets/images/Logo.png");
 
-export default function App() {
+export default function Index({navigation}) {
   useEffect(() => {
     setTimeout(changeLoadingPage, 1500);
   });
 
   function changeLoadingPage() {
-    router.replace("/Detector");
+    // router.replace("/Detector");
+    navigation.navigate('Detector')
   }
 
   return (
     <View style={styles.container}>
-      <StatusBar hidden backgroundColor="black" barStyle="dark-content" animated />
+      <StatusBar  style="light" />
       <View style={styles.body}>
         {/* Image */}
         <Image source={logoPath} style={styles.LOGO} />
