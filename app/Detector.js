@@ -50,14 +50,21 @@ export default function Detector() {
             if (response.ok) {
               // Ensure the response is not empty before parsing
               const text = await response.text();
-              if (text != "false") {
-                var imagearray = text.split("images/");
-                setIamgePath(imagearray[1]);
-                // Alert.alert("responed",imagearray[1]);
-                
+
+              var imagearray = text.split("images/");
+              var splitImageandBoolean = imagearray[1].split(" ");
+              var imageName = splitImageandBoolean[0];
+              var imageboolean = splitImageandBoolean[1];
+              var date = splitImageandBoolean[2];
+              var time = splitImageandBoolean[3];
+
+              if (imageboolean == "true") {
+                setIamgePath(imageName);
+                Alert.alert("responed", imagearray[1]);
               } else {
                 Alert.alert("No Elephant Detections");
               }
+              
             } else {
               Alert.alert("Error", `Response not OK: ${response.status}`);
             }
