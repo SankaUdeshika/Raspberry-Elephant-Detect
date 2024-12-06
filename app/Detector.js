@@ -16,6 +16,7 @@ import {
 const logoPath = require("../assets/images/Logo.png");
 const CamaraIconPath = "../assets/images/camaraIcon.png";
 
+
 export default function Detector() {
   {
     /* Raspberry IP address ->192.168.8.197 */
@@ -60,11 +61,26 @@ export default function Detector() {
 
               if (imageboolean == "true") {
                 setIamgePath(imageName);
-                Alert.alert("responed", imagearray[1]);
+
+                var form = new FormData();
+                form.append("imageBoolean",imageboolean);
+                form.append("date",date);
+                form.append("time",time);
+                form.append("imagename",imageName);
+
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                  if (request.readyState == 4 && request.status == 200) {
+                    var responseText = request.responseText;
+                    alert(responseText);
+                  }
+                };
+                request.open("POST", "http://192.168.8.125/ElephantDetector/process.php", true);
+                request.send(form);
+
               } else {
                 Alert.alert("No Elephant Detections");
               }
-              
             } else {
               Alert.alert("Error", `Response not OK: ${response.status}`);
             }
