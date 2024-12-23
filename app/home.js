@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 const logoPath = require("../assets/images/Logo.png");
-const ScheduleScreen = () => {
+const Home = ({navigation}) => {
   const classes = [
     {
       startTime: "21:00",
@@ -323,4 +323,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ScheduleScreen;
+export default Home;

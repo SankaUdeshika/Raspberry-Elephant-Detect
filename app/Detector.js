@@ -17,7 +17,7 @@ const logoPath = require("../assets/images/Logo.png");
 const CamaraIconPath = "../assets/images/camaraIcon.png";
 
 
-export default function Detector() {
+export default function Detector({navigation}) {
   {
     /* Raspberry IP address ->192.168.8.197 */
   }
@@ -99,6 +99,14 @@ export default function Detector() {
       <View>
         <Text style={styles.CamaraText}>Capture the Photo</Text>
       </View>
+
+      <Pressable style={styles.GoHistory} onPress={()=>{
+        navigation.navigate("Home")
+      }}>
+        <Text style={styles.gohistoryText}>Hestory</Text>
+      </Pressable>
+
+
     </View>
   );
 }
@@ -110,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   picPreview: {
-    borderColor: "#90EE90",
+
     borderStyle: "solid",
     borderWidth: 3,
     width: 300,
@@ -125,4 +133,13 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  gohistoryText: {
+    color:'white'
+  },
+  GoHistory:{
+    padding:10,
+    backgroundColor:"green",
+    marginTop:20,
+    borderRadius:10,
+  }
 });
