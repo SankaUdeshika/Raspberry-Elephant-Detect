@@ -16,14 +16,14 @@ import {
 const logoPath = require("../assets/images/Logo.png");
 const CamaraIconPath = "../assets/images/camaraIcon.png";
 
-
-export default function Detector({navigation}) {
+export default function Detector({ navigation }) {
   {
     /* Raspberry IP address ->192.168.8.197 */
   }
   const [getImagePath, setIamgePath] = useState(
     "photo_86750fb1-2997-4c72-9474-723b0b9aa0b4.jpg"
   );
+  const [getBoolenValue, setBooleanValue] = useState("Press the Camara Button");
   const imageUrl = ``;
   return (
     <View style={styles.container}>
@@ -33,6 +33,9 @@ export default function Detector({navigation}) {
         networkActivityIndicatorVisible
       />
       <View style={styles.picPreview}>
+        <Text style={{ color: "lightgreen", fontSize: 20 }}>
+          {getBoolenValue}
+        </Text>
         <Image
           source={"http://192.168.8.197/images/" + getImagePath}
           width={300}
@@ -43,10 +46,12 @@ export default function Detector({navigation}) {
       <Pressable
         onPress={async function () {
           const capturePhoto_url = "http://192.168.8.197:5000/capture_photo";
-          const getImagePath_url = "http://192.168.8.197:5000/get_image";
+          // const getImagePath_url = "http://192.168.8.197:5000/get_image";
 
           try {
+            setBooleanValue("Please Wait");
             const response = await fetch(capturePhoto_url, { method: "GET" });
+            
 
             if (response.ok) {
               // Ensure the response is not empty before parsing
@@ -58,28 +63,35 @@ export default function Detector({navigation}) {
               var imageboolean = splitImageandBoolean[1];
               var date = splitImageandBoolean[2];
               var time = splitImageandBoolean[3];
+              var elephantCount = splitImageandBoolean[4];
+
+              setIamgePath(imageName);
+              
+
+              var form = new FormData();
+              form.append("imageBoolean", imageboolean);
+              form.append("date", date);
+              form.append("time", time);
+              form.append("imagename", imageName);
+
+              var request = new XMLHttpRequest();
+              request.onreadystatechange = function () {
+                if (request.readyState == 4 && request.status == 200) {
+                  var responseText = request.responseText;
+                  // alert(responseText);
+                }
+              };
+              request.open(
+                "POST",
+                "http://192.168.8.125/ElephantDetector/process.php",
+                true
+              );
+              request.send(form);
 
               if (imageboolean == "true") {
-                setIamgePath(imageName);
-
-                var form = new FormData();
-                form.append("imageBoolean",imageboolean);
-                form.append("date",date);
-                form.append("time",time);
-                form.append("imagename",imageName);
-
-                var request = new XMLHttpRequest();
-                request.onreadystatechange = function () {
-                  if (request.readyState == 4 && request.status == 200) {
-                    var responseText = request.responseText;
-                    alert(responseText);
-                  }
-                };
-                request.open("POST", "http://192.168.8.125/ElephantDetector/process.php", true);
-                request.send(form);
-
+                setBooleanValue(elephantCount + " Elephant Detected");
               } else {
-                Alert.alert("No Elephant Detections");
+                setBooleanValue("No Elephant Detected");
               }
             } else {
               Alert.alert("Error", `Response not OK: ${response.status}`);
@@ -100,13 +112,14 @@ export default function Detector({navigation}) {
         <Text style={styles.CamaraText}>Capture the Photo</Text>
       </View>
 
-      <Pressable style={styles.GoHistory} onPress={()=>{
-        navigation.navigate("Home")
-      }}>
-        <Text style={styles.gohistoryText}>Hestory</Text>
+      <Pressable
+        style={styles.GoHistory}
+        onPress={() => {
+          navigation.navigate("History");
+        }}
+      >
+        <Text style={styles.gohistoryText}>history</Text>
       </Pressable>
-
-
     </View>
   );
 }
@@ -118,12 +131,13 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   picPreview: {
-
     borderStyle: "solid",
     borderWidth: 3,
     width: 300,
     height: 300,
     marginBottom: 50,
+    display: "flex",
+    alignItems: "center",
   },
   CamaraText: {
     marginTop: 20,
@@ -134,12 +148,12 @@ const styles = StyleSheet.create({
     height: 100,
   },
   gohistoryText: {
-    color:'white'
+    color: "white",
   },
-  GoHistory:{
-    padding:10,
-    backgroundColor:"green",
-    marginTop:20,
-    borderRadius:10,
-  }
+  GoHistory: {
+    padding: 10,
+    backgroundColor: "green",
+    marginTop: 20,
+    borderRadius: 10,
+  },
 });

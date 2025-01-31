@@ -14,7 +14,7 @@ export default function Index({navigation}) {
 
   function changeLoadingPage() {
     // router.replace("/Detector");
-    navigation.navigate('History')
+    navigation.navigate('Detector')
   }
 
   return (

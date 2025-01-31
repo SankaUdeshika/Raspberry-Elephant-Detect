@@ -7,17 +7,19 @@ const logoPath = require("../assets/images/Logo.png"); // Not used in this compo
 
 export default function History({ navigation }) {
   const [getImageArrayState, setImageArrayState] = useState([]);
+  const [getTotalCount,setTotalCount] = useState(0);
   const [numColumns, setNumColumns] = useState(3); // Track the number of columns
 
   useEffect(() => {
     async function loadImage() {
       try {
         const response = await fetch(
-          "http://192.168.8.129/ElephantDetector/loadImage.php"
+          "http://192.168.8.125/ElephantDetector/loadImage.php"
         );
         if (response.ok) {
           const responseData = await response.json();
           setImageArrayState(responseData.imageArray || []);
+          setTotalCount(responseData.total);
         } else {
           Alert.alert("Error", "Failed to load images from the server.");
         }
@@ -43,8 +45,9 @@ export default function History({ navigation }) {
         networkActivityIndicatorVisible
       />
       <View style={styles.picturePreviewCover}>
-        <View >
-          <Text>Today History</Text>
+        <View style={styles.topicCover}>
+          <Text style={styles.topic}>Today History</Text>
+          <Text style={styles.totalCount}>total count = {getTotalCount}</Text>
         </View>
         <FlatList
           data={getImageArrayState}
@@ -76,7 +79,7 @@ const styles = StyleSheet.create({
   },
   picturePreviewCover: {
     display: "flex",
-    backgroundColor: "red",
+    backgroundColor: "black",
     width: "100%",
     height: "100%",
     marginTop: 50,
@@ -96,4 +99,20 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  topicCover: {
+    backgroundColor: "black",
+    width: "100%",
+    height: 100,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  topic: {
+    color: "#66cc66",
+    fontWeight: "bold",
+    fontSize: 40,
+  },
+  totalCount:{
+    color:"white",
+  }
 });
