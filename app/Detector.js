@@ -64,6 +64,8 @@ export default function Detector({ navigation }) {
               var date = splitImageandBoolean[2];
               var time = splitImageandBoolean[3];
               var elephantCount = splitImageandBoolean[4];
+              
+              console.log("out:- "+imageboolean)
 
               setIamgePath(imageName);
               
@@ -88,7 +90,7 @@ export default function Detector({ navigation }) {
               );
               request.send(form);
 
-              if (imageboolean == "true") {
+              if (imageboolean == "True") {
                 setBooleanValue(elephantCount + " Elephant Detected");
               } else {
                 setBooleanValue("No Elephant Detected");
