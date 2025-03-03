@@ -4,6 +4,7 @@ import Index from './app/Index'
 import Detector from './app/Detector'
 import Home from './app/Home'
 import History from './app/History'
+import FileChoose from './app/FileChoose'
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
       <Stack.Screen name="Detector" component={Detector} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="History" component={History} />
+      <Stack.Screen name="FileChoose" component={FileChoose} />
     </Stack.Navigator>
     </NavigationContainer>
 

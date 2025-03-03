@@ -99,7 +99,7 @@ export default function Detector({ navigation }) {
               Alert.alert("Error", `Response not OK: ${response.status}`);
             }
           } catch (error) {
-            console.error("Fetch error:", error);
+          console.error("Fetch error:", error);
             Alert.alert("Error", `Network error: ${error.message}`);
           }
         }}
@@ -121,6 +121,15 @@ export default function Detector({ navigation }) {
         }}
       >
         <Text style={styles.gohistoryText}>history</Text>
+      </Pressable>
+
+      <Pressable
+        style={styles.GoHistory}
+        onPress={() => {
+          navigation.navigate("FileChoose");
+        }}
+      >
+        <Text style={styles.gohistoryText}>Choose a File?</Text>
       </Pressable>
     </View>
   );
